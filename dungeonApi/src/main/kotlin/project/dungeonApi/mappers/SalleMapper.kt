@@ -1,34 +1,30 @@
 package project.dungeonApi.mappers
 
+import org.springframework.data.domain.Sort
 import project.dungeonApi.dto.SalleDto
-import project.dungeonApi.entities.Personnage
 import project.dungeonApi.entities.Salle
+import project.dungeonApi.enums.Direction
 import java.util.*
 import kotlin.collections.ArrayList
 
 class SalleMapper {
 
-    fun convertToDto(salle : Salle): SalleDto{
-        var salles = listDoors(salle)
-        var entites = listEntities(salle.entites)
-        return SalleDto(salle.id, salle.nom, entites, salle.description, salles)
-
-    }
-
-    private fun listEntities(joueurs: List<Personnage>): ArrayList<UUID> {
-        var entites : ArrayList<UUID> = arrayListOf()
-        for(joueur in joueurs)
-            entites.add(joueur.id)
-        return entites
+    fun convertToDto(salle: Salle, personnages: List<UUID>, ): SalleDto{
+        var doors = listDoors(salle)
+        return SalleDto(salle.description, doors, personnages)
     }
 
     private fun listDoors(salle: Salle): ArrayList<String> {
         var directions : ArrayList<String> = arrayListOf()
 
-        directions?.add(salle.nord.toString())
-        directions?.add(salle.sud.toString())
-        directions?.add(salle.est.toString())
-        directions?.add(salle.ouest.toString())
+        if(salle.nord != null)
+            directions.add(Direction.N.toString())
+        if(salle.sud != null)
+            directions.add(Direction.S.toString())
+        if(salle.est != null)
+            directions.add(Direction.E.toString())
+        if(salle.west != null)
+            directions.add(Direction.W.toString())
 
         return directions
     }

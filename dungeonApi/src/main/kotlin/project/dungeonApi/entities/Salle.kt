@@ -6,18 +6,18 @@ import javax.persistence.*
 @Entity
 data class Salle(
         @Id
-        @GeneratedValue
         var id: UUID,
-        var nom: String,
-        @OneToMany
-        var entites: List<Personnage>,
         var description : String,
-        @OneToOne
+
+        @OneToOne(fetch = FetchType.LAZY, optional = true)
         var nord : Salle?,
-        @OneToOne
+        @OneToOne(fetch = FetchType.LAZY, optional = true)
         var sud : Salle?,
-        @OneToOne
+        @OneToOne(fetch = FetchType.LAZY, optional = true)
         var est : Salle?,
-        @OneToOne
-        var ouest : Salle?
-)
+        @OneToOne(fetch = FetchType.LAZY, optional = true)
+        var west: Salle?
+){
+        constructor(description: String, nord: Salle?, sud: Salle?, est: Salle?, ouest: Salle?)
+                : this(UUID.randomUUID(), description, nord, sud, est, ouest)
+}

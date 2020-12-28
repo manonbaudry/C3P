@@ -1,13 +1,10 @@
 package project.dungeonApi.enums
 
-enum class Direction {
-    NORD, SUD, EST, OUEST
+import com.fasterxml.jackson.annotation.JsonFormat
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 
-//    fun toString(direction : Direction): String{
-//        when(direction){
-//            NORD -> "Nord"
-//            SUD -> "Sud"
-//
-//        }
-//    }
+
+@JsonDeserialize
+enum class Direction {
+    N, S, E, W
 }
