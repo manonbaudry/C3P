@@ -1,7 +1,6 @@
 package project.dungeonApi.dto
 
 import project.dungeonApi.enums.TypePersonnage
-import java.util.*
 
 data class PersonnageDto (
         var description: String,

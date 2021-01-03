@@ -1,10 +1,16 @@
 package project.dungeonApi.enums
 
-import com.fasterxml.jackson.annotation.JsonFormat
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.annotation.JsonProperty
 
-
-@JsonDeserialize
 enum class Direction {
     N, S, E, W
+}
+
+class DirectionDto {
+
+    @JsonProperty
+    val direction : Direction? = null
+
+    constructor() {
+    }
 }

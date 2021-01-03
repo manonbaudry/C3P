@@ -1,6 +1,5 @@
 package project.dungeonApi.mappers
 
-import org.springframework.data.domain.Sort
 import project.dungeonApi.dto.SalleDto
 import project.dungeonApi.entities.Salle
 import project.dungeonApi.enums.Direction
@@ -28,5 +27,4 @@ class SalleMapper {
 
         return directions
     }
-
 }

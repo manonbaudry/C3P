@@ -4,6 +4,7 @@ import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 import project.dungeonApi.entities.Personnage
 import project.dungeonApi.entities.Salle
 import project.dungeonApi.enums.TypePersonnage
@@ -41,7 +42,7 @@ class DungeonApiApplication{
 		var p1 = Personnage(UUID.fromString("123e4567-e89b-42d3-a456-556642440011"), "Je suis un joueur", TypePersonnage.JOUEUR, hall)
 		personnageRepository.save(p1)
 
-		var p2 = Personnage(UUID.fromString("c7c9e91a-6013-43e2-b5e5-9c29d6885f2c"), "Je suis un joueur", TypePersonnage.JOUEUR, salon)
+		var p2 = Personnage(UUID.fromString("c7c9e91a-6013-43e2-b5e5-9c29d6885f2c"), "Je suis un joueur", TypePersonnage.JOUEUR, hall)
 		personnageRepository.save(p2)
 
 		// TODO Initialize Monsters
@@ -54,3 +55,17 @@ class DungeonApiApplication{
 fun main(args: Array<String>) {
 	runApplication<DungeonApiApplication>(*args)
 }
+
+
+/*
+@Configuration
+class SpringFoxConfig {
+	@Bean
+	fun api(): Docket {
+		return Docket(DocumentationType.SWAGGER_2)
+			.select()
+			.apis(RequestHandlerSelectors.any())
+			.paths(PathSelectors.any())
+			.build()
+	}
+}*/

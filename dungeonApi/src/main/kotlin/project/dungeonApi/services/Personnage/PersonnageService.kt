@@ -6,6 +6,7 @@ import project.dungeonApi.dto.SalleDto
 import project.dungeonApi.entities.Personnage
 import project.dungeonApi.entities.Salle
 import project.dungeonApi.enums.Direction
+import project.dungeonApi.enums.DirectionDto
 import project.dungeonApi.exceptions.NotSameRoomException
 import project.dungeonApi.exceptions.WallException
 import project.dungeonApi.mappers.PersonnageMapper
@@ -19,7 +20,6 @@ import kotlin.collections.ArrayList
 class PersonnageService(var personnageRepository: PersonnageRepository, var salleService: SalleService) {
 
     private val personnageMapper = PersonnageMapper()
-    private val salleMapper = SalleMapper()
 
     fun getAll(): MutableList<Personnage> = personnageRepository.findAll()
 
@@ -35,22 +35,22 @@ class PersonnageService(var personnageRepository: PersonnageRepository, var sall
         throw NotImplementedError()
     }
 
-    fun move(id: UUID, direction: Direction): SalleDto {
-        var salleCourante =  personnageRepository.findById(id).get().salleCourante
-        var idPersoInSalle = findIdBySalleCourante(salleCourante)
+    fun move(id: UUID, direction: DirectionDto): SalleDto {
+        var player = personnageRepository.findById(id).get()
+        var destination : Salle? = null
 
-        var destination : Salle?
-
-        when(direction){
-            Direction.N -> destination = salleCourante.nord
-            Direction.S -> destination = salleCourante.sud
-            Direction.E ->  destination = salleCourante.est
-            Direction.W ->  destination = salleCourante.west
+        when(direction.direction){
+            Direction.N -> destination = player.salleCourante.nord
+            Direction.S -> destination = player.salleCourante.sud
+            Direction.E ->  destination = player.salleCourante.est
+            Direction.W ->  destination = player.salleCourante.west
         }
-
-        if (destination != null)
-            return salleMapper.convertToDto(destination, idPersoInSalle)
-        else
+        if (destination != null) {
+            var idPersoInSalle = findIdBySalleCourante(destination)
+            player.salleCourante = destination
+            personnageRepository.save(player)
+            return salleService.move(destination, idPersoInSalle)
+        }else
             throw WallException("Oups, c'était un mur")
     }
 
