@@ -1,12 +1,10 @@
 package project.dungeonApi.controllers
 
-import org.springframework.data.domain.Sort
 import org.springframework.web.bind.annotation.*
 import project.dungeonApi.dto.PersonnageDto
 import project.dungeonApi.dto.SalleDto
 import project.dungeonApi.entities.Personnage
 import project.dungeonApi.entities.ResponseAttack
-import project.dungeonApi.enums.Direction
 import project.dungeonApi.enums.DirectionDto
 import project.dungeonApi.services.Personnage.PersonnageService
 import java.util.*
