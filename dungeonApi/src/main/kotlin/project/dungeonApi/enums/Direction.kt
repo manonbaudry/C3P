@@ -7,7 +7,6 @@ enum class Direction {
 }
 
 class DirectionDto {
-
     @JsonProperty
     val direction : Direction? = null
 

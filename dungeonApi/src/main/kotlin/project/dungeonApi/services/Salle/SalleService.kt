@@ -5,6 +5,7 @@ import project.dungeonApi.dto.SalleDto
 import project.dungeonApi.entities.Salle
 import project.dungeonApi.mappers.SalleMapper
 import project.dungeonApi.repositories.SalleRepository
+import project.dungeonApi.utils.Constant
 import java.util.*
 
 @Service
@@ -19,5 +20,9 @@ class SalleService(val salleRepository: SalleRepository){
 
     fun move(destination: Salle, personnages: List<UUID>): SalleDto {
         return mapper.convertToDto(destination, personnages)
+    }
+
+    fun getFisrtRoom() : Salle {
+        return salleRepository.getOne(Constant.ID_FIRST_ROOM)
     }
 }

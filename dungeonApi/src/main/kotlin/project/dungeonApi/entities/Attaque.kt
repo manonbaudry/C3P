@@ -1,15 +1,15 @@
 package project.dungeonApi.entities
 
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
+import java.util.*
 
-@Entity
+
+data class ResponseAttack(
+        val attaque: Attaque,
+        val attaquant: Attaque
+)
+
 data class Attaque(
-        @Id
-        @GeneratedValue
-        var id: String,
-        var cible : String,
+        var id: UUID,
         var degats : Int,
         var vie : Int
 )

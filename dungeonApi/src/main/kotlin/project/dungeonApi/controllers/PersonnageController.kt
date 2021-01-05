@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*
 import project.dungeonApi.dto.PersonnageDto
 import project.dungeonApi.dto.SalleDto
 import project.dungeonApi.entities.Personnage
+import project.dungeonApi.entities.ResponseAttack
 import project.dungeonApi.enums.Direction
 import project.dungeonApi.enums.DirectionDto
 import project.dungeonApi.services.Personnage.PersonnageService
@@ -16,8 +17,8 @@ class PersonnageController(val personnageService: PersonnageService) {
     fun getAll(): MutableList<Personnage> = personnageService.getAll()
 
     @PostMapping("/connect")
-    fun startGame(@RequestBody personnage : Personnage) : PersonnageDto {
-        return personnageService.startGame(personnage)
+    fun startGame() : PersonnageDto {
+        return personnageService.startGame()
     }
 
     @GetMapping("{id}/regarder")
@@ -36,7 +37,7 @@ class PersonnageController(val personnageService: PersonnageService) {
     }
 
     @PostMapping("/{id}/taper/{targetId}")
-    fun hit(@PathVariable("id")id : UUID,  @PathVariable("targetId") targetId : UUID) :  MutableList<PersonnageDto>  {
+    fun hit(@PathVariable("id")id : UUID,  @PathVariable("targetId") targetId : UUID) :  ResponseAttack  {
         return personnageService.hit(id, targetId)
     }
 }

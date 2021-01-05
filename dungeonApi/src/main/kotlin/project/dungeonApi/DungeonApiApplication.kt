@@ -4,12 +4,12 @@ import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
 import project.dungeonApi.entities.Personnage
 import project.dungeonApi.entities.Salle
 import project.dungeonApi.enums.TypePersonnage
 import project.dungeonApi.repositories.PersonnageRepository
 import project.dungeonApi.repositories.SalleRepository
+import project.dungeonApi.utils.Constant
 import java.util.*
 
 @SpringBootApplication
@@ -18,7 +18,7 @@ class DungeonApiApplication{
 	@Bean
 	fun init(personnageRepository: PersonnageRepository, salleRepository: SalleRepository)  = CommandLineRunner {
 
-		var hall = Salle("Vous êtes dans le  hall d'entrée", null, null, null, null )
+		var hall = Salle(Constant.ID_FIRST_ROOM ," Vous êtes dans le  hall d'entrée", null, null, null, null )
 		salleRepository.save(hall)
 
 		var salon = Salle("Vous êtes dans le  salon", null, null, hall, null)

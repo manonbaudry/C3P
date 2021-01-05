@@ -4,13 +4,14 @@ import org.springframework.stereotype.Service
 import project.dungeonApi.dto.PersonnageDto
 import project.dungeonApi.dto.SalleDto
 import project.dungeonApi.entities.Personnage
+import project.dungeonApi.entities.ResponseAttack
 import project.dungeonApi.entities.Salle
 import project.dungeonApi.enums.Direction
 import project.dungeonApi.enums.DirectionDto
+import project.dungeonApi.exceptions.DeadException
 import project.dungeonApi.exceptions.NotSameRoomException
 import project.dungeonApi.exceptions.WallException
 import project.dungeonApi.mappers.PersonnageMapper
-import project.dungeonApi.mappers.SalleMapper
 import project.dungeonApi.repositories.PersonnageRepository
 import project.dungeonApi.services.Salle.SalleService
 import java.util.*
@@ -26,13 +27,15 @@ class PersonnageService(var personnageRepository: PersonnageRepository, var sall
 
     fun look(id: UUID): SalleDto { // TODO gestion des erreurs
         var salleCourante =  personnageRepository.findById(id).get().salleCourante
-        var idPersoInSalle : List<UUID> = findIdBySalleCourante(salleCourante)
+        var idPersoInSalle : List<UUID> = findIdPersoInSalle(salleCourante)
 
         return salleService.look(salleCourante.id, idPersoInSalle)
     }
 
-    fun startGame(personnage: Personnage) : PersonnageDto {
-        throw NotImplementedError()
+    fun startGame() : PersonnageDto {
+
+        var newPlayer = Personnage(salleService.getFisrtRoom())
+        return personnageMapper.convertToDto(newPlayer)
     }
 
     fun move(id: UUID, direction: DirectionDto): SalleDto {
@@ -46,12 +49,12 @@ class PersonnageService(var personnageRepository: PersonnageRepository, var sall
             Direction.W ->  destination = player.salleCourante.west
         }
         if (destination != null) {
-            var idPersoInSalle = findIdBySalleCourante(destination)
+            var idPersoInSalle = findIdPersoInSalle(destination)
             player.salleCourante = destination
             personnageRepository.save(player)
             return salleService.move(destination, idPersoInSalle)
         }else
-            throw WallException("Oups, c'était un mur")
+            throw WallException("mur")
     }
 
     fun examine(id: UUID, targetId: UUID): PersonnageDto {
@@ -64,12 +67,31 @@ class PersonnageService(var personnageRepository: PersonnageRepository, var sall
             throw NotSameRoomException("Oups, ce perso n'est pas dans la même salle que toi")
     }
 
-    fun hit(id: UUID, targetId: UUID): MutableList<PersonnageDto> {
-        throw NotImplementedError()
+    fun hit(id: UUID, targetId: UUID): ResponseAttack {
+        var player = personnageRepository.findById(id).get()
+        var target = personnageRepository.findById(targetId).get()
+
+        if (player.salleCourante === target.salleCourante){
+             //attaque du joueur
+            target.vie -= player.force
+            if(target.vie <= 0)
+               personnageRepository.delete(target)
+            else
+                personnageRepository.save(target)
+
+             //riposte de la target
+            player.vie -= target.force
+            if(player.vie <= 0){
+                throw DeadException()
+            }
+            personnageRepository.save(player)
+            return personnageMapper.convertToAttack(player, target)
+        }
+        else
+            throw NotSameRoomException("Oups, ce perso n'est pas dans la même salle que toi")
     }
 
-
-    private fun findIdBySalleCourante(salle :Salle): List<UUID>{
+    private fun findIdPersoInSalle(salle :Salle): List<UUID>{
         var personnages = personnageRepository.findBySalleCourante(salle)
 
         var list :ArrayList<UUID> = arrayListOf()
