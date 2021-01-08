@@ -4,12 +4,18 @@ import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 import project.dungeonApi.entities.Personnage
 import project.dungeonApi.entities.Salle
 import project.dungeonApi.enums.TypePersonnage
 import project.dungeonApi.repositories.PersonnageRepository
 import project.dungeonApi.repositories.SalleRepository
 import project.dungeonApi.utils.Constant
+import springfox.documentation.builders.PathSelectors
+import springfox.documentation.builders.RequestHandlerSelectors
+import springfox.documentation.spi.DocumentationType
+import springfox.documentation.spring.web.plugins.Docket
+import springfox.documentation.swagger2.annotations.EnableSwagger2
 import java.util.*
 
 @SpringBootApplication
@@ -57,8 +63,8 @@ fun main(args: Array<String>) {
 }
 
 
-/*
 @Configuration
+@EnableSwagger2
 class SpringFoxConfig {
 	@Bean
 	fun api(): Docket {
@@ -68,4 +74,4 @@ class SpringFoxConfig {
 			.paths(PathSelectors.any())
 			.build()
 	}
-}*/
+}

@@ -8,7 +8,7 @@ import project.dungeonApi.entities.ResponseAttack
 import project.dungeonApi.entities.Salle
 import project.dungeonApi.enums.Direction
 import project.dungeonApi.enums.DirectionDto
-import project.dungeonApi.exceptions.DeadException
+import project.dungeonApi.exceptions.GameException
 import project.dungeonApi.exceptions.NotSameRoomException
 import project.dungeonApi.exceptions.WallException
 import project.dungeonApi.mappers.PersonnageMapper
@@ -82,7 +82,7 @@ class PersonnageService(var personnageRepository: PersonnageRepository, var sall
              //riposte de la target
             player.vie -= target.force
             if(player.vie <= 0){
-                throw DeadException()
+                throw GameException()
             }
             personnageRepository.save(player)
             return personnageMapper.convertToAttack(player, target)
