@@ -4,13 +4,13 @@
 #define MEMORY_SIZE 4096
 #define REGISTER_SIZE 16
 
+// Exercice 1
 typedef struct {
     unsigned char memory[MEMORY_SIZE];
     unsigned char registers[REGISTER_SIZE];
     unsigned char memory_register;
     unsigned char pc;
 } chip8;
-
 
 chip8* create(){
     return malloc(sizeof(chip8));
@@ -23,10 +23,11 @@ void initialize(chip8* machine){
     for(int i = 0; i < REGISTER_SIZE; i++){
         machine->registers[i]=0;
     }
-
     machine->memory_register = 0;
     machine->pc = 0;
 }
+
+// Exercice 2
 
 void read_file(chip8* machine){
     FILE* fp = fopen("sc-games/ALIEN", "r");
@@ -34,6 +35,8 @@ void read_file(chip8* machine){
     fclose(fp);
     printf("%d\n", nb);
 }
+
+// Exercice 3
 
 // a = 0xAB et b = 0xCD
 unsigned short concat_char(short a, short b){
@@ -47,7 +50,6 @@ int main (void){
     initialize(machine);
     read_file(machine);
     printf("0x%X\n", concat_char(0xAB, 0xCD));
-
     free(machine);
     return 0;
 }
