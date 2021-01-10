@@ -1,4 +1,4 @@
-package project.dungeonApi.services.Salle
+package project.dungeonApi.services
 
 import org.springframework.stereotype.Service
 import project.dungeonApi.dto.SalleDto

@@ -1,4 +1,4 @@
-package project.dungeonApi.services.Personnage
+package project.dungeonApi.services
 
 import org.springframework.stereotype.Service
 import project.dungeonApi.dto.PersonnageDto
@@ -12,7 +12,6 @@ import project.dungeonApi.enums.ErrorType
 import project.dungeonApi.exceptions.GameException
 import project.dungeonApi.mappers.PersonnageMapper
 import project.dungeonApi.repositories.PersonnageRepository
-import project.dungeonApi.services.Salle.SalleService
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -32,7 +31,6 @@ class PersonnageService(var personnageRepository: PersonnageRepository, var sall
     }
 
     fun startGame() : PersonnageDto {
-
         var newPlayer = Personnage(salleService.getFisrtRoom())
         return personnageMapper.convertToDto(newPlayer)
     }

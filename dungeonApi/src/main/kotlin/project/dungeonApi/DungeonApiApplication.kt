@@ -25,23 +25,50 @@ class DungeonApiApplication{
 	@Bean
 	fun init(personnageRepository: PersonnageRepository, salleRepository: SalleRepository)  = CommandLineRunner {
 
+		//Initialize Dungeon
 		var hall = Salle(Constant.ID_FIRST_ROOM ," Vous êtes dans le  hall d'entrée", null, null, null, null )
 		salleRepository.save(hall)
 
 		var salon = Salle("Vous êtes dans le  salon", null, null, hall, null)
 		salleRepository.save(salon)
 
+		var bureau = Salle("Vous êtes dans le  bureau", null, null, null, hall)
+		salleRepository.save(bureau)
+
+		var salleAManger = Salle( "Vous êtes dans la salle à manger", null, salon, null, null )
+		salleRepository.save(salleAManger)
+
+		var cuisine = Salle("Vous êtes dans la cuisine", null, hall, null, salleAManger )
+		salleRepository.save(cuisine)
+
+		var chambre1 = Salle("Vous êtes dans une chambre", null, null, null, null )
+		salleRepository.save(chambre1)
+
+		var chambre2 = Salle("Vous êtes dans une chambre", null, salleAManger, null, null )
+		salleRepository.save(chambre2)
+
+		var garage = Salle("Vous êtes dans le garage", null, null, null, chambre1 )
+		salleRepository.save(garage)
+
+		var salleDeBain = Salle("Vous êtes dans la salle de bain", garage, null, null, null )
+		salleRepository.save(salleDeBain)
+
+		var sortie = Salle("Bravo c'est la sortie !", null, garage, null, null )
+		salleRepository.save(sortie)
+
+		hall.est = bureau
 		hall.west = salon
 		salleRepository.save(hall)
 
-		//Initialize Dungeon
-		var bureau = Salle("Vous êtes dans le  bureau", null, null, null, hall)
-		var salleAManger = Salle( "Vous êtes dans la salle à manger", null, salon, null, null )
-		var cuisine = Salle("Vous êtes dans la cuisine", null, hall, null, salleAManger )
-		var chambre1 = Salle("Vous êtes dans une chambre", null, null, null, null )
-		var chambre2 = Salle("Vous êtes dans une chambre", null, salleAManger, null, null )
-		var salleDeBain = Salle("Vous êtes dans la salle de bain", null, null, null, null )
-		var garage = Salle("Vous êtes dans le garage", null, salleDeBain, null, chambre1 )
+		salon.nord = salleAManger
+		salleRepository.save(salon)
+
+		cuisine.nord = chambre1
+		salleRepository.save(cuisine)
+
+		garage.sud = salleDeBain
+		garage.nord = sortie
+		salleRepository.save(garage)
 
 		//adding characters in dungeon
 
