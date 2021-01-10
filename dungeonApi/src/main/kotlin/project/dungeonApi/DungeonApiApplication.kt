@@ -17,6 +17,7 @@ import springfox.documentation.spi.DocumentationType
 import springfox.documentation.spring.web.plugins.Docket
 import springfox.documentation.swagger2.annotations.EnableSwagger2
 import java.util.*
+import kotlin.random.Random
 
 @SpringBootApplication
 class DungeonApiApplication{
@@ -44,17 +45,30 @@ class DungeonApiApplication{
 
 		//adding characters in dungeon
 
-		//Initialize Players
 		var p1 = Personnage(UUID.fromString("123e4567-e89b-42d3-a456-556642440011"), "Je suis un joueur", TypePersonnage.JOUEUR, hall)
 		personnageRepository.save(p1)
 
 		var p2 = Personnage(UUID.fromString("c7c9e91a-6013-43e2-b5e5-9c29d6885f2c"), "Je suis un joueur", TypePersonnage.JOUEUR, hall)
 		personnageRepository.save(p2)
 
-		// TODO Initialize Monsters
-		// 8 monsters
-		var m1 = Personnage(UUID.fromString("123e4567-e89b-42d3-a456-556642440022"), "Je suis un monstre", TypePersonnage.MONSTRE, salon)
+		var monsterDescription = "Je suis un monstre"
+
+		var m1 = Personnage(UUID.fromString("123e4567-e89b-42d3-a456-556642440022"), monsterDescription, TypePersonnage.MONSTRE, salon)
 		personnageRepository.save(m1)
+
+		var vie = Random.nextInt(15, 30)
+		var m2 = Personnage(monsterDescription, vie, TypePersonnage.MONSTRE, bureau);
+		personnageRepository.save(m2)
+
+		vie = Random.nextInt(15, 30)
+		var m3 = Personnage(monsterDescription, vie, TypePersonnage.MONSTRE, salleAManger);
+		personnageRepository.save(m3)
+
+
+		vie = Random.nextInt(15, 30)
+		var m4 = Personnage(monsterDescription, vie, TypePersonnage.MONSTRE, cuisine);
+		personnageRepository.save(m4)
+
 	}
 }
 
@@ -62,6 +76,7 @@ fun main(args: Array<String>) {
 	runApplication<DungeonApiApplication>(*args)
 }
 
+//Configuration for Swagger
 
 @Configuration
 @EnableSwagger2

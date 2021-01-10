@@ -8,9 +8,8 @@ import project.dungeonApi.entities.ResponseAttack
 import project.dungeonApi.entities.Salle
 import project.dungeonApi.enums.Direction
 import project.dungeonApi.enums.DirectionDto
+import project.dungeonApi.enums.ErrorType
 import project.dungeonApi.exceptions.GameException
-import project.dungeonApi.exceptions.NotSameRoomException
-import project.dungeonApi.exceptions.WallException
 import project.dungeonApi.mappers.PersonnageMapper
 import project.dungeonApi.repositories.PersonnageRepository
 import project.dungeonApi.services.Salle.SalleService
@@ -25,11 +24,11 @@ class PersonnageService(var personnageRepository: PersonnageRepository, var sall
     fun getAll(): MutableList<Personnage> = personnageRepository.findAll()
 
 
-    fun look(id: UUID): SalleDto { // TODO gestion des erreurs
-        var salleCourante =  personnageRepository.findById(id).get().salleCourante
-        var idPersoInSalle : List<UUID> = findIdPersoInSalle(salleCourante)
+    fun look(id: UUID): SalleDto {
+            var salleCourante =  personnageRepository.findById(id).get().salleCourante
+            var idPersoInSalle : List<UUID> = findIdPersoInSalle(salleCourante)
 
-        return salleService.look(salleCourante.id, idPersoInSalle)
+            return salleService.look(salleCourante.id, idPersoInSalle)
     }
 
     fun startGame() : PersonnageDto {
@@ -54,7 +53,7 @@ class PersonnageService(var personnageRepository: PersonnageRepository, var sall
             personnageRepository.save(player)
             return salleService.move(destination, idPersoInSalle)
         }else
-            throw WallException("mur")
+            throw GameException("tu t'es pris un mur", ErrorType.MUR)
     }
 
     fun examine(id: UUID, targetId: UUID): PersonnageDto {
@@ -64,7 +63,7 @@ class PersonnageService(var personnageRepository: PersonnageRepository, var sall
         if(salleJoueur === target.salleCourante)
             return personnageMapper.convertToDto(target)
         else
-            throw NotSameRoomException("Oups, ce perso n'est pas dans la même salle que toi")
+            throw GameException("Ce perso n'est pas dans la même salle que toi", ErrorType.DIFFSALLE)
     }
 
     fun hit(id: UUID, targetId: UUID): ResponseAttack {
@@ -82,13 +81,14 @@ class PersonnageService(var personnageRepository: PersonnageRepository, var sall
              //riposte de la target
             player.vie -= target.force
             if(player.vie <= 0){
-                throw GameException()
+                throw GameException("Vous êtes mort", ErrorType.MORT)
             }
             personnageRepository.save(player)
             return personnageMapper.convertToAttack(player, target)
         }
         else
-            throw NotSameRoomException("Oups, ce perso n'est pas dans la même salle que toi")
+            throw GameException("Ce perso n'est pas dans la même salle que toi", ErrorType.DIFFSALLE)
+
     }
 
     private fun findIdPersoInSalle(salle :Salle): List<UUID>{
