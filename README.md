@@ -16,4 +16,8 @@ Kotlin - Spring Boot
 |Salon           |Hall                          |Bureau                       |
 |                |**Entrée**                    |                             |
 
+
+### Swagger dashboard
+http://localhost:8080/swagger-ui.html
+
 ## TP
