@@ -19,4 +19,13 @@ class ControllerExceptionHandler {
         val entity = ResponseEntity<Map<String, String?>>(errorInfo, HttpStatus.CONFLICT)
         return entity
     }
+
+    @ExceptionHandler(IdNotFoundException::class)
+    fun handleIdNotFound(exception: IdNotFoundException) : ResponseEntity<Map<String, String?>> {
+        val errorInfo: MutableMap<String, String?> = HashMap()
+        errorInfo["message"] = exception.message
+        val entity = ResponseEntity<Map<String, String?>>(errorInfo, HttpStatus.NOT_FOUND)
+        return entity
+    }
+
 }

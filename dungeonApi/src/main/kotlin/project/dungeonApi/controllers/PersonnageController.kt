@@ -6,8 +6,10 @@ import project.dungeonApi.dto.SalleDto
 import project.dungeonApi.entities.Personnage
 import project.dungeonApi.entities.ResponseAttack
 import project.dungeonApi.enums.DirectionDto
+import project.dungeonApi.exceptions.IdNotFoundException
 import project.dungeonApi.services.PersonnageService
 import java.util.*
+import kotlin.NoSuchElementException
 
 
 @RestController
@@ -42,7 +44,11 @@ class PersonnageController(val personnageService: PersonnageService) {
      */
     @GetMapping("{id}/regarder")
     fun look(@PathVariable("id") id: UUID)  : SalleDto {
-        return personnageService.look(id)
+        try {
+            return personnageService.look(id)
+        }catch(e : NoSuchElementException ){
+            throw IdNotFoundException("This Id does not exist")
+        }
     }
 
     /**
@@ -70,7 +76,11 @@ class PersonnageController(val personnageService: PersonnageService) {
      */
     @GetMapping("/{id}/examiner/{targetId}")
     fun examine(@PathVariable("id")id : UUID, @PathVariable("targetId") targetId : UUID) : PersonnageDto{
-        return personnageService.examine(id, targetId)
+        try {
+            return personnageService.examine(id, targetId)
+        }catch(e : NoSuchElementException ){
+            throw IdNotFoundException("This Id does not exist")
+        }
     }
 
     /**
@@ -92,6 +102,10 @@ class PersonnageController(val personnageService: PersonnageService) {
      */
     @PostMapping("/{id}/taper/{targetId}")
     fun hit(@PathVariable("id")id : UUID,  @PathVariable("targetId") targetId : UUID) :  ResponseAttack  {
-        return personnageService.hit(id, targetId)
+        try {
+            return personnageService.hit(id, targetId)
+        }catch(e : NoSuchElementException ){
+            throw IdNotFoundException("This Id does not exist")
+        }
     }
 }

@@ -32,6 +32,7 @@ class PersonnageService(var personnageRepository: PersonnageRepository, var sall
 
     fun startGame() : PersonnageDto {
         var newPlayer = Personnage(salleService.getFisrtRoom())
+        personnageRepository.save(newPlayer)
         return personnageMapper.convertToDto(newPlayer)
     }
 
@@ -71,8 +72,10 @@ class PersonnageService(var personnageRepository: PersonnageRepository, var sall
         if (player.salleCourante === target.salleCourante){
              //attaque du joueur
             target.vie -= player.force
-            if(target.vie <= 0)
-               personnageRepository.delete(target)
+            if(target.vie <= 0){
+                personnageRepository.delete(target)
+                throw GameException("Le perso est mort", ErrorType.MORT)
+            }
             else
                 personnageRepository.save(target)
 

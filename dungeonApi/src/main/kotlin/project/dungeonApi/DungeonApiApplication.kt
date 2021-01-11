@@ -80,10 +80,11 @@ class DungeonApiApplication{
 
 		var monsterDescription = "Je suis un monstre"
 
-		var m1 = Personnage(UUID.fromString("123e4567-e89b-42d3-a456-556642440022"), monsterDescription, TypePersonnage.MONSTRE, salon)
+		var vie = Random.nextInt(15, 30)
+		var m1 = Personnage(monsterDescription, vie, TypePersonnage.MONSTRE, salon)
 		personnageRepository.save(m1)
 
-		var vie = Random.nextInt(15, 30)
+		vie = Random.nextInt(15, 30)
 		var m2 = Personnage(monsterDescription, vie, TypePersonnage.MONSTRE, bureau);
 		personnageRepository.save(m2)
 
