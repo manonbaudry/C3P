@@ -1,9 +1,19 @@
 # C3P
 
 ## Projet
-J'ai choisi le projet n°1 :
+Réalisation du projet n°1 :
 SEVEUR REST DE JEU MUD-LIKE
 
-J'ai réalisé l'api en Kotlin en utilisant Spring Boot
+Kotlin - Spring Boot
+
+### Dungeon map
+
+|                |                         		   |						             	  |
+|----------------|-------------------------------|----------------------------|
+|                |                              |**Sortie**                   |
+|Chambre1        |Chambre2                      |Garage                       |
+|Salle a manger  |Cuisne                        |Salle de bain                |
+|Salon           |Hall                          |Bureau                       |
+|                |**Entrée**                    |                             |
 
 ## TP
