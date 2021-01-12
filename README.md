@@ -17,7 +17,7 @@ Kotlin - Spring Boot
 |                |**Entrée**                    |                             |
 
 
-### Swagger dashboard
+### Swagger documentation
 http://localhost:8080/swagger-ui.html
 
 ## TP
